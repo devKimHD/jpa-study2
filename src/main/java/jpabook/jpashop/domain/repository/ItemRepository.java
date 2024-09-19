@@ -22,6 +22,7 @@ public class ItemRepository
         }else
         {
             //id is not null edit
+            //머지 사용시 모든필드가 셋팅한 값으로 대체, 대체될 당시 null이면 null로 업데이트해서 신중하게 사용 필요
             em.merge(item);
         }
     }
