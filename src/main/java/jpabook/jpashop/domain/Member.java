@@ -23,6 +23,7 @@ public class Member {
     @Embedded
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member")//매핑이 되버림 order의 fk가 됨
     private List<Order> orders = new ArrayList<>();
 }
