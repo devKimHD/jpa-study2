@@ -47,6 +47,20 @@ public class OrderSimpleApiController {
                 .map(o -> new SimpleOderDto(o))
                 .collect(Collectors.toList());
         return result;
+
+    }
+
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOderDto> oderV3()
+    {
+        //fetch를 사용해서 from 절의 엔티티도 같이 조회(일반 조인과 차이가 여기서 발생)
+        //이해해서 실무에서 사용할것
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOderDto> result = orders.stream()
+                .map(o -> new SimpleOderDto(o))
+                .collect(Collectors.toList());
+        return result;
+
     }
 
     @Data
