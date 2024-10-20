@@ -94,4 +94,14 @@ public class OrderRepository {
                 " join fetch o.orderItems oi " +
                 " join fetch oi.item i",Order.class).getResultList();
     }
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery("select distinct o from Order o " +
+                " join fetch o.member " +
+                " join fetch o.delivery "
+               ,Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit).
+                getResultList();
+    }
 }
