@@ -5,6 +5,8 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.domain.repository.OrderRepository;
 import jpabook.jpashop.domain.repository.OrderSearch;
+import jpabook.jpashop.domain.repository.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.domain.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +21,13 @@ import java.util.stream.Collectors;
  * Order
  * Order -> Member
  * Order -> Delivery
+ * v2 dto제작 -> v3->v4순으로 선택
  * */
 @RestController
 @RequiredArgsConstructor
 public class OrderSimpleApiController {
     private final OrderRepository orderRepository;
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
     @GetMapping("/api/v1/simple-orders")
     public List<Order> ordersV1()
     {
@@ -62,7 +66,16 @@ public class OrderSimpleApiController {
         return result;
 
     }
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> oderV4()
+    {
+        //fetch를 사용해서 from 절의 엔티티도 같이 조회(일반 조인과 차이가 여기서 발생)
+        //이해해서 실무에서 사용할것
+       return orderSimpleQueryRepository.findOrderDtos();
 
+    }
+    //v3와 v4의 가장 큰 차이점은 재사용성에 있음
+    //v4는 변경 감지가 안됨 즉 연관된것의 수정이 필요하면 v3가 나음
     @Data
     static class SimpleOderDto
     {
