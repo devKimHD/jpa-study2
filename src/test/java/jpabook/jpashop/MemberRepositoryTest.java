@@ -1,9 +1,7 @@
 package jpabook.jpashop;
 
 import jakarta.transaction.Transactional;
-import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.domain.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
+import jpabook.jpashop.domain.repository.MemberRepositoryOld;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class MemberRepositoryTest {
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepositoryOld memberRepository;
     @Test
     @Transactional
     @Rollback(false)
