@@ -1,3 +1,5 @@
+
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.3'
@@ -6,6 +8,7 @@ plugins {
 
 group = 'jpabook'
 version = '0.0.1-SNAPSHOT'
+
 
 java {
 	toolchain {
@@ -33,7 +36,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-hibernate6
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate6'
-
+	implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+	annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
@@ -44,7 +50,16 @@ dependencies {
 	}
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
+// 없어도 돌아가는 부분// Querydsl 설정부
+def generated = 'src/main/generated'
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {	options.generatedSourceOutputDirectory = file(generated)}
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {	main.java.srcDirs += "$projectDir/build/generated"}
+// gradle clean 시에 QClass 디렉토리 삭제
+ clean {	delete file('src/main/generated')}
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
